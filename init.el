@@ -26,7 +26,6 @@
 (setq-default tab-width 2)
 (hl-line-mode t)
 (blink-cursor-mode 0)
-(load-theme 'doom-moonlight t)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (cua-mode t)
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
@@ -64,7 +63,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
+   '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
    '(typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
@@ -104,7 +103,7 @@
 (use-package swiper)
 
 (use-package doom-themes
-  :init (load-theme 'doom-palenight t))
+  :init (load-theme 'doom-molokai t))
 
 (use-package doom-modeline
   :ensure t
@@ -157,6 +156,8 @@
     "qq" '(save-buffers-kill-emacs :which-key "close emacs")
     "x" '(counsel-M-x :which-key "open command line")
     "s" '(save-buffer :which-key "save current buffer")
+    "l"  '(:ignore l :which-key "lsp")
+    "lh"  '(lsp-ui-doc-glance :which-key "toggle lsp ui doc")
     "f"  '(:ignore f :which-key "file")
     "ff" '(counsel-find-file :which-key "find file")
     "fs" '(swiper :which-key "search")

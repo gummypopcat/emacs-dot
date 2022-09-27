@@ -38,7 +38,7 @@
 
 
 ;; Font
-(set-face-attribute 'default nil :height 133 :font "JetBrainsMono Nerd Font")
+(set-face-attribute 'default nil :height 125 :font "JetBrainsMono Nerd Font")
 
 ;; Initialize package sources
 (require 'package)
@@ -65,7 +65,7 @@
  '(custom-safe-themes
    '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
-   '(typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
+   '(evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -187,12 +187,19 @@
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
   (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
+	(define-key evil-normal-state-map (kbd "M-n") 'evil-multiedit-match-and-next)
+	(define-key evil-visual-state-map (kbd "M-n") 'evil-multiedit-match-and-next)
+	(define-key evil-normal-state-map (kbd "M-N") 'evil-multiedit-match-and-prev)
+	(define-key evil-visual-state-map (kbd "M-N") 'evil-multiedit-match-and-prev)
+
   ;; Use visual line motions even outside of visual-line-mode buffers
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-multiedit)
 
 (use-package evil-collection
   :after evil
@@ -203,7 +210,10 @@
 	:config
 	(setq yas-snippet-dirs '("~/.config/emacs/elpa/yasnippet-snippets-20220713.1234/snippets"))
 	:init
-	(yas-global-mode 1))
+	(yas-global-mode 1)
+	:bind
+	("C-c y" . yas-insert-snippet))
+
 
 (use-package yasnippet-snippets)
 

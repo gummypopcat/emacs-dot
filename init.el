@@ -23,7 +23,8 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; General
-(setq-default tab-width 2)
+(setq-default tab-width 2
+							truncate-lines t)
 (hl-line-mode t)
 (blink-cursor-mode 0)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -39,6 +40,10 @@
 
 ;; Font
 (set-face-attribute 'default nil :height 125 :font "JetBrainsMono Nerd Font")
+
+;; Languages shift width 
+(setq js-indent-level 2)
+(setq css-indent-offset 2)
 
 ;; Initialize package sources
 (require 'package)
@@ -65,7 +70,7 @@
  '(custom-safe-themes
    '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
-   '(evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
+   '(js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -153,11 +158,31 @@
     "n" '(:ignore n :which-key "treemacs")
     "nt" '(treemacs :which-key "toggle treemacs")
     "ns" '(lsp-treemacs-symbols :which-key "toggle treemacs symbols")
+    "nm" '(treemacs-move-file :which-key "move file/folder")
+    "nc" '(:ignore nc :which-key "create/add")
+    "ncf" '(treemacs-create-file :which-key "create file")
+    "ncd" '(treemacs-create-dir :which-key "create dir")
+    "ncp" '(treemacs-add-project-to-workspace :which-key "add project to workspace")
+    "nr" '(:ignore nr :which-key "rename")
+    "nrf" '(treemacs-rename-file :which-key "rename file")
+    "nrp" '(treemacs-rename-project :which-key "rename project")
+    "nd" '(:ignore nd :which-key "delete")
+    "ndf" '(treemacs-delete-file :which-key "delete file")
+    "ndp" '(treemacs-remove-project-from-workspace :which-key "remove project form workspace")
     "qq" '(save-buffers-kill-emacs :which-key "close emacs")
     "x" '(counsel-M-x :which-key "open command line")
     "s" '(save-buffer :which-key "save current buffer")
     "l"  '(:ignore l :which-key "lsp")
     "lh"  '(lsp-ui-doc-glance :which-key "toggle lsp ui doc")
+    "lr"  '(:ignore lr :which-key "format")
+    "lr="  '(lsp-format-buffer :which-key "format all file")
+    "lrs"  '(lsp-format-region :which-key "format file section")
+    "lg"  '(:ignore lg :which-key "peek")
+    "lgr"  '(lsp-find-references :which-key "find references")
+    "lgd"  '(lsp-find-definition :which-key "find definitions")
+    "lgi"  '(lsp-find-implementation :which-key "find implementations")
+    "lgt"  '(lsp-find-type-definition :which-key "find type definition")
+    "lge"  '(lsp-treemacs-errors-list :which-key "show errors")
     "y"  '(yas-insert-snippet :which-key "insert snippet")
     "f"  '(:ignore f :which-key "file")
     "ff" '(counsel-find-file :which-key "find file")
@@ -218,8 +243,7 @@
 (use-package yasnippet-snippets)
 
 (defun efs/lsp-mode-setup ()
-  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-  (lsp-headerline-breadcrumb-mode))
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols)))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)

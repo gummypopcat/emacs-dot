@@ -123,7 +123,7 @@
   :init (which-key-mode)
   :diminish which-key-mode
   :config
-  (setq which-key-idle-delay 0.2))
+  (setq which-key-idle-delay 0.4))
 
 (use-package ivy-rich
   :init (ivy-rich-mode 1)
@@ -158,6 +158,7 @@
     "s" '(save-buffer :which-key "save current buffer")
     "l"  '(:ignore l :which-key "lsp")
     "lh"  '(lsp-ui-doc-glance :which-key "toggle lsp ui doc")
+    "y"  '(yas-insert-snippet :which-key "insert snippet")
     "f"  '(:ignore f :which-key "file")
     "ff" '(counsel-find-file :which-key "find file")
     "fs" '(swiper :which-key "search")

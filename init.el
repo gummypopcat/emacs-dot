@@ -14,11 +14,13 @@
 ;; Line numbers
 (column-number-mode)
 (global-display-line-numbers-mode 1)
+(setq display-line-numbers 'relative)
 
 ;; Disable line numbers for some nodes
 (dolist (mode '(org-mode-hook
 		term-mode-hook
 		shell-mode-hook
+    eshell-mode-hook
     treemacs-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
@@ -32,14 +34,14 @@
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
 (transient-mark-mode 1)
 (toggle-truncate-lines nil)
+(electric-pair-mode t)
 
 ;; KeyBindings
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-
 ;; Font
-(set-face-attribute 'default nil :height 125 :font "JetBrainsMono Nerd Font")
+(set-face-attribute 'default nil :height 115 :font "JetBrainsMono Nerd Font")
 
 ;; Languages shift width 
 (setq js-indent-level 2)
@@ -70,7 +72,7 @@
  '(custom-safe-themes
    '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
-   '(js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
+   '(dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -108,7 +110,7 @@
 (use-package swiper)
 
 (use-package doom-themes
-  :init (load-theme 'doom-molokai t))
+  :init (load-theme 'doom-dark+ t))
 
 (use-package doom-modeline
   :ensure t
@@ -153,8 +155,20 @@
     :global-prefix "SPC")
 
   (rune/leader-keys
-    "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")
+    "t" '(eshell :which-key "open terminal")
+    "T"  '(:ignore T :which-key "toggles")
+    "Tt" '(counsel-load-theme :which-key "choose theme")
+
+    "d" '(:ignore d :which-key "dired")
+    "do"  '(dired :which-key "open dired")
+
+    "h"  '(:ignore h :which-key "help")
+    "hd" '(:ignore hd :which-key "describe")
+    "hdm" '(describe-mode :which-key "describe mode")
+    "hdb" '(describe-bindings :which-key "describe bindings")
+    "hdv" '(describe-variable :which-key "describe variable")
+    "hdf" '(describe-function :which-key "describe function")
+
     "n" '(:ignore n :which-key "treemacs")
     "nt" '(treemacs :which-key "toggle treemacs")
     "nu" '(treemacs-refresh :which-key "refresh project")
@@ -170,9 +184,13 @@
     "nd" '(:ignore nd :which-key "delete")
     "ndf" '(treemacs-delete-file :which-key "delete file")
     "ndp" '(treemacs-remove-project-from-workspace :which-key "remove project form workspace")
+
     "qq" '(save-buffers-kill-emacs :which-key "close emacs")
+
     "x" '(counsel-M-x :which-key "open command line")
+
     "s" '(save-buffer :which-key "save current buffer")
+
     "l"  '(:ignore l :which-key "lsp")
     "lh"  '(lsp-ui-doc-glance :which-key "toggle lsp ui doc")
     "lf"  '(:ignore lf :which-key "format")
@@ -184,14 +202,18 @@
     "lgi"  '(lsp-find-implementation :which-key "find implementations")
     "lgt"  '(lsp-find-type-definition :which-key "find type definition")
     "lge"  '(lsp-treemacs-errors-list :which-key "show errors")
+
     "y"  '(yas-insert-snippet :which-key "insert snippet")
+
     "f"  '(:ignore f :which-key "file")
     "ff" '(counsel-find-file :which-key "find file")
     "fs" '(swiper :which-key "search")
+
     "b"  '(:ignore c :which-key "buffer")
-    "bt" '(term :which-key "term buffer")
-    "bc" '(kill-current-buffer :which-key "close buffer")
+    "bc" '(kill-current-buffer :which-key "close current buffer")
+    "bC" '(kill-buffer :which-key "close buffer")
     "bs" '(counsel-switch-buffer :which-key "switch buffer")
+
     "w"  '(:ignore w :which-key "window")
     "wc" '(delete-window :which-key "close window")
     "wv"  '(split-window-right :which-key "vertical split")
@@ -203,6 +225,7 @@
     "wrh" '(:ignore wrh :which-key "resize height")
     "wrh-" '(evil-window-decrease-height :which-key "decrease height")
     "wrh=" '(evil-window-increase-height :which-key "increase height")
+
     "g"  '(:ignore g :which-key "goto")
     "gl" '(evil-window-right :which-key "move to window right")
     "gk" '(evil-window-up :which-key "move to window up")
@@ -293,3 +316,64 @@
 
 (use-package lsp-treemacs
   :after lsp)
+
+(use-package eterm-256color
+  :hook (eshell-mode . eterm-256color-mode))
+
+(defun efs/configure-eshell ()
+  ;; Save command history when commands are entered
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+  ;; Truncate buffer for performance
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+  ;; Bind some useful keys for evil-mode
+  (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-h") 'counsel-esh-history)
+  (evil-define-key '(normal insert visual) eshell-mode-map (kbd "<home>") 'eshell-bol)
+  (evil-normalize-keymaps)
+
+  (setq eshell-history-size         10000
+        eshell-buffer-maximum-lines 10000
+        eshell-hist-ignoredups t
+        eshell-scroll-to-bottom-on-input t))
+
+(use-package eshell-git-prompt)
+
+(use-package eshell
+  :hook (eshell-first-time-mode . efs/configure-eshell)
+  :config
+
+  (with-eval-after-load 'esh-opt
+    (setq eshell-destroy-buffer-when-process-dies t)
+    (setq eshell-visual-commands '("htop" "zsh" "vim" "cowsay" "lolcat")))
+
+  (eshell-git-prompt-use-theme 'powerline))
+
+(use-package dired
+  :ensure nil
+  :commands (dired dired-jump)
+  :bind (("C-x C-j" . dired-jump))
+  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :config
+  (setq delete-by-moving-to-trash t)
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-single-up-directory
+    "l" 'dired-single-buffer))
+
+(use-package dired-single)
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired-open
+  :config
+  ;; Doesn't work as expected!
+  ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+  (setq dired-open-extensions '(("png" . "feh")
+                                ("mkv" . "mpv"))))
+
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'dired-hide-dotfiles-mode))

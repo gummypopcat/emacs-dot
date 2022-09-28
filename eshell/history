@@ -1,0 +1,18 @@
+ls
+ls -la
+vim
+ls
+clear
+ls
+-l
+clear
+ls -l
+htop
+clear
+echo "hello" | cowsay | lolcat
+echo "hello" | cowsay | lolcat -h 0.7
+git status
+cd .config/emacs/
+git status
+git commit init.el -m "changed theme bindings and dired configs"
+git push

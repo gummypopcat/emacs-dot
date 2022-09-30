@@ -3,6 +3,7 @@
       make-backup-files nil
       auto-save-default nil
 			indent-tabs-mode nil
+			undo-tree-auto-save-history nil
       )
 
 ;; UI
@@ -11,10 +12,12 @@
 (scroll-bar-mode -1)
 (set-fringe-mode 10)
 
+
 ;; Line numbers
 (column-number-mode)
-(global-display-line-numbers-mode 1)
-(setq display-line-numbers 'relative)
+(display-line-numbers-mode 1)
+(setq-default display-line-numbers 'relative)
+
 
 ;; Disable line numbers for some nodes
 (dolist (mode '(org-mode-hook
@@ -72,7 +75,7 @@
  '(custom-safe-themes
    '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
-   '(dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
+   '(magit undo-tree dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -171,6 +174,8 @@
 
     "n" '(:ignore n :which-key "treemacs")
     "nt" '(treemacs :which-key "toggle treemacs")
+    "nf" '(treemacs-visit-node-in-most-recently-used-window :which-key "open file")
+    "ne" '(treemacs-select-window :which-key "focus treemacs")
     "nu" '(treemacs-refresh :which-key "refresh project")
     "ns" '(lsp-treemacs-symbols :which-key "toggle treemacs symbols")
     "nm" '(treemacs-move-file :which-key "move file/folder")
@@ -218,18 +223,15 @@
     "wc" '(delete-window :which-key "close window")
     "wv"  '(split-window-right :which-key "vertical split")
     "wh" '(split-window-below :which-key "horizontal split")
-    "wr" '(:ignore wr :which-key "window resize")
-    "wrw" '(:ignore wrw :which-key "resize width")
-    "wrw-" '(evil-window-decrease-width :which-key "decrease width")
-    "wrw=" '(evil-window-increase-width :which-key "increase width")
-    "wrh" '(:ignore wrh :which-key "resize height")
-    "wrh-" '(evil-window-decrease-height :which-key "decrease height")
-    "wrh=" '(evil-window-increase-height :which-key "increase height")
+    "w<" '(evil-window-decrease-width :which-key "decrease width")
+    "w>" '(evil-window-increase-width :which-key "increase width")
+    "w-" '(evil-window-decrease-height :which-key "decrease height")
+    "w=" '(evil-window-increase-height :which-key "increase height")
 
     "g"  '(:ignore g :which-key "goto")
     "gl" '(evil-window-right :which-key "move to window right")
     "gk" '(evil-window-up :which-key "move to window up")
-    "gj" '(evil-window-bottom :which-key "move to window down")
+    "gj" '(evil-window-down :which-key "move to window down")
     "gh" '(evil-window-left :which-key "move to window left")))
 
 (use-package evil
@@ -262,6 +264,14 @@
   :after evil
   :config
   (evil-collection-init))
+
+(use-package undo-tree
+  :ensure t
+  :after evil
+  :diminish
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1))
 
 (use-package yasnippet
 	:config
@@ -316,6 +326,7 @@
 
 (use-package lsp-treemacs
   :after lsp)
+(treemacs-resize-icons 16)
 
 (use-package eterm-256color
   :hook (eshell-mode . eterm-256color-mode))

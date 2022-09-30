@@ -53,9 +53,9 @@
 ;; Initialize package sources
 (require 'package)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+(setq package-archives '(("melpa" . "http://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+                         ("elpa" . "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
 (unless package-archive-contents
@@ -75,7 +75,7 @@
  '(custom-safe-themes
    '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
-   '(magit undo-tree dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
+   '(ghub treepy magit undo-tree dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -227,6 +227,8 @@
     "w>" '(evil-window-increase-width :which-key "increase width")
     "w-" '(evil-window-decrease-height :which-key "decrease height")
     "w=" '(evil-window-increase-height :which-key "increase height")
+
+    "G"  '(magit-status :which-key "magit")
 
     "g"  '(:ignore g :which-key "goto")
     "gl" '(evil-window-right :which-key "move to window right")
@@ -388,3 +390,16 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
+
+(use-package undo-tree
+  :ensure t
+  :after evil
+  :diminish
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1))
+
+(use-package treepy)
+(use-package ghub)
+(use-package magit
+	:ensure t)

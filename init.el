@@ -179,6 +179,7 @@
     "nu" '(treemacs-refresh :which-key "refresh project")
     "ns" '(lsp-treemacs-symbols :which-key "toggle treemacs symbols")
     "nm" '(treemacs-move-file :which-key "move file/folder")
+    "ny" '(treemacs-copy-file :which-key "copy file/folder")
     "nc" '(:ignore nc :which-key "create/add")
     "ncf" '(treemacs-create-file :which-key "create file")
     "ncd" '(treemacs-create-dir :which-key "create dir")
@@ -295,7 +296,7 @@
 	(lsp-mode . efs/lsp-mode-setup)
 	(html-mode . lsp-deferred)
 	(css-mode . lsp-deferred)
-	(javascript-mode . lsp-deferred)
+	(js-mode . lsp-deferred)
   :init
   (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
   :config

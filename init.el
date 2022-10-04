@@ -183,13 +183,12 @@
     "nc" '(:ignore nc :which-key "create/add")
     "ncf" '(treemacs-create-file :which-key "create file")
     "ncd" '(treemacs-create-dir :which-key "create dir")
-    "ncp" '(treemacs-add-project-to-workspace :which-key "add project to workspace")
-    "nr" '(:ignore nr :which-key "rename")
-    "nrf" '(treemacs-rename-file :which-key "rename file")
-    "nrp" '(treemacs-rename-project :which-key "rename project")
-    "nd" '(:ignore nd :which-key "delete")
-    "ndf" '(treemacs-delete-file :which-key "delete file")
-    "ndp" '(treemacs-remove-project-from-workspace :which-key "remove project form workspace")
+    "nr" '(treemacs-rename-file :which-key "rename file")
+    "np" '(:ignore np :which-key "project")
+    "npr" '(treemacs-rename-project :which-key "rename project")
+    "npc" '(treemacs-add-project-to-workspace :which-key "add project to workspace")
+    "npd" '(treemacs-remove-project-from-workspace :which-key "remove project form workspace")
+    "nd" '(treemacs-delete-file :which-key "delete file/dir")
 
     "qq" '(save-buffers-kill-emacs :which-key "close emacs")
 
@@ -404,3 +403,5 @@
 (use-package ghub)
 (use-package magit
 	:ensure t)
+
+(setq magit-status-buffer-switch-function 'switch-to-buffer)

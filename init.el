@@ -12,12 +12,11 @@
 (scroll-bar-mode -1)
 (set-fringe-mode 10)
 
-
-;; Line numbers
+;; Line
 (column-number-mode)
 (display-line-numbers-mode 1)
 (setq-default display-line-numbers 'relative)
-
+(setq-default line-spacing 6)
 
 ;; Disable line numbers for some nodes
 (dolist (mode '(org-mode-hook
@@ -44,7 +43,7 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; Font
-(set-face-attribute 'default nil :height 115 :font "JetBrainsMono Nerd Font")
+(set-face-attribute 'default nil :height 96 :font "JetBrainsMono Nerd Font")
 
 ;; Languages shift width 
 (setq js-indent-level 2)
@@ -75,7 +74,7 @@
  '(custom-safe-themes
    '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
-   '(ghub treepy magit undo-tree dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
+   '(darcula-theme timu-rouge-theme ccls ghub treepy magit undo-tree dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -113,7 +112,7 @@
 (use-package swiper)
 
 (use-package doom-themes
-  :init (load-theme 'doom-dark+ t))
+ :init (load-theme 'doom-gruvbox t))
 
 (use-package doom-modeline
   :ensure t
@@ -314,7 +313,7 @@
         (:map lsp-mode-map
          ("<tab>" . company-indent-or-complete-common))
   :custom
-  (company-minimum-prefix-length 1)
+  (company-minimum-prefix-length 10)
   (company-idle-delay 0.0)
 	:init (company-mode 1))
 
@@ -329,6 +328,10 @@
 (use-package lsp-treemacs
   :after lsp)
 (treemacs-resize-icons 16)
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
 
 (use-package eterm-256color
   :hook (eshell-mode . eterm-256color-mode))

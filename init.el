@@ -74,7 +74,7 @@
  '(custom-safe-themes
    '("be84a2e5c70f991051d4aaf0f049fa11c172e5d784727e0b525565bb1533ec78" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "1a1ac598737d0fcdc4dfab3af3d6f46ab2d5048b8e72bc22f50271fd6d393a00" "171d1ae90e46978eb9c342be6658d937a83aaa45997b1d7af7657546cae5985b" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" default))
  '(package-selected-packages
-   '(darcula-theme timu-rouge-theme ccls ghub treepy magit undo-tree dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
+   '(ivy-posframe visual-fill-column org-bullets darcula-theme timu-rouge-theme ccls ghub treepy magit undo-tree dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt eterm-256color js-mode js-mode-hook evil-multiedit typescript-mode lsp-treemacs lsp-ui company-box company lsp-mode yasnippet-snippets yasnippet evil-collection general doom-themes helpful wich-key rainbow-delimiters all-the-icons-ivy smalltalk-mode all-the-icons-install-fonts all-the-icons doom-modeline ivy command-log-mode use-package atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -408,3 +408,63 @@
 	:ensure t)
 
 (setq magit-status-buffer-switch-function 'switch-to-buffer)
+(defun efs/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (visual-line-mode 1))
+
+;; Org Mode Configuration ------------------------------------------------------
+
+(defun efs/org-font-setup ()
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  ;; Set faces for heading levels
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "JetBrainsMono Nerd Font" :weight 'regular :height (cdr face)))
+
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+
+(use-package org
+  :hook (org-mode . efs/org-mode-setup)
+  :config
+  (setq org-ellipsis " ▾")
+  (efs/org-font-setup))
+
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+(defun efs/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . efs/org-mode-visual-fill))
+
+(use-package ivy-posframe
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+  (setq ivy-posframe-parameters
+        '((left-fringe . 10)
+          (right-fringe . 10)))
+  (ivy-posframe-mode 1))

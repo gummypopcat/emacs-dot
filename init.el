@@ -43,7 +43,7 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; Font
-(set-face-attribute 'default nil :height 96 :font "JetBrainsMono Nerd Font")
+(set-face-attribute 'default nil :height 106 :font "FuraMono Nerd Font")
 
 ;; Languages shift width 
 (setq js-indent-level 2)
@@ -313,7 +313,7 @@
         (:map lsp-mode-map
          ("<tab>" . company-indent-or-complete-common))
   :custom
-  (company-minimum-prefix-length 10)
+  (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
 	:init (company-mode 1))
 
@@ -462,9 +462,14 @@
   :hook (org-mode . efs/org-mode-visual-fill))
 
 (use-package ivy-posframe
+	:custom-face
+  (ivy-posframe-border ((t (:background "#ffffff"))))
   :config
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
   (setq ivy-posframe-parameters
         '((left-fringe . 10)
-          (right-fringe . 10)))
+          (right-fringe . 10)
+          (internal-border-width . 40))
+        ivy-posframe-height-alist '((t . 20)))
+  (setq ivy-posframe-width 180)
   (ivy-posframe-mode 1))
